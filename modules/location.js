@@ -1,29 +1,15 @@
 'use strict';
 
-console.log('start of location.js');
-//libraries:
+const superagent = require('superagent');
+const client = require('../modules/client.js');
+require('dotenv').config();
 
 
-
-
-
-module.exports.handleLocation = function (request, response) {
-
-
+function handleLocation(request, response) {
   const location = request.query.data;
-
-
-  // const Location = function (location, geoData) {
-  //   this.search_query = location;
-  //   this.formatted_query = geoData.formatted_address;
-  //   this.latitude = geoData.geometry.location.lat;
-  //   this.longitude = geoData.geometry.location.lng;
-  // };
-
 
   //query db to see if location is in the table:
   client.query('SELECT search_query FROM geocode WHERE search_query=$1', [location])
-
     .then(results => {
 
       //if it's not, make the api call and add the data to the table:
@@ -62,4 +48,15 @@ module.exports.handleLocation = function (request, response) {
       console.error(error);
       response.status(500).send('server error.');
     });
-};
+}
+
+function Location(location, geoData) {
+  this.search_query = location;
+  this.formatted_query = geoData.formatted_address;
+  this.latitude = geoData.geometry.location.lat;
+  this.longitude = geoData.geometry.location.lng;
+}
+
+
+
+module.exports = handleLocation;
