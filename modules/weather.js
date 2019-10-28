@@ -13,7 +13,7 @@ function handleWeather(request, response) {
     superagent.get(url)
       .then(resultsFromSuperagent => {
         let daysOfWeather = resultsFromSuperagent.body.daily.data;
-        console.log(daysOfWeather);
+        // console.log(daysOfWeather);
         let weatherArray = daysOfWeather.map(day => {
         return new Weather(day);
         });
